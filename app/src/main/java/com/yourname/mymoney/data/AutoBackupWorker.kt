@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.data
+package com.yourname.mymoney.data
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -21,79 +21,83 @@ import java.util.concurrent.TimeUnit
 
 class AutoBackupWorker(
     context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params) {
+    workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        val backupManager = GoogleDriveBackupManager(applicationContext)
-        val interval = backupManager.autoBackupInterval
-        if (interval == AutoBackupInterval.OFF) {
-            return Result.success()
-        }
-        if (backupManager.accountEmail.isNullOrBlank()) {
-            return Result.success()
-        }
-
-        val auth = backupManager.authorizeDrive()
-        if (auth !is DriveAuthOutcome.Granted) {
-            val errorMsg = applicationContext.getString(R.string.notif_auth_expired_msg)
-            backupManager.lastBackupError = errorMsg
-            showAuthExpiredNotification(applicationContext)
-            return Result.failure()
-        }
-
-        return try {
-            val database = MyMoneyDatabase.getDatabase(applicationContext)
-            val transactions = database.transactionDao().getAllTransactionsSync()
-            val loans = database.loanDao().getAllLoansSync()
-            val repayments = database.loanRepaymentDao().getAllRepaymentsSync()
-            val budgets = database.budgetDao().getAllBudgetsSync()
-            val categories = database.categoryDao().getAllCategoriesSync()
-
-            val snapshot = BackupData(transactions, loans, repayments, budgets, categories)
-            val existingFiles = DriveRestClient.listBackupFiles(auth.accessToken)
-            if (!snapshot.hasRecords() && existingFiles.isNotEmpty()) {
-                // Database is empty but cloud backup exists: do not overwrite
-                return Result.success()
-            }
-
-            val json = DataBackupService.exportToJson(
-                transactions,
-                loans,
-                repayments,
-                budgets,
-                categories,
-                settings = mapOf(
-                    "currencyCode" to CurrencyManager.currentCurrency.code
-                )
-            )
-
-            val uploadResult = backupManager.uploadBackup(auth.accessToken, json)
-            if (uploadResult.isSuccess) {
-                Result.success()
-            } else {
-                val err = uploadResult.exceptionOrNull()
-                val msg = err?.message ?: applicationContext.getString(R.string.err_gdrive_backup_failed)
-                backupManager.lastBackupError = msg
-                if (err is DriveApiException && (err.statusCode == 401 || err.statusCode == 403)) {
-                    showAuthExpiredNotification(applicationContext)
-                }
-                Result.retry()
-            }
-        } catch (e: Exception) {
-            val msg = e.message ?: applicationContext.getString(R.string.err_gdrive_backup_failed)
-            backupManager.lastBackupError = msg
-            if (e is DriveApiException && (e.statusCode == 401 || e.statusCode == 403)) {
-                showAuthExpiredNotification(applicationContext)
-            }
-            Result.retry()
-        }
+        return performBackup(applicationContext)
     }
 
     companion object {
         const val WORK_NAME = "mymoney_auto_backup"
         const val NOTIFICATION_CHANNEL_ID = "drive_backup_channel"
         const val NOTIFICATION_ID = 2001
+
+        suspend fun performBackup(context: Context): Result {
+            val backupManager = GoogleDriveBackupManager(context)
+            val interval = backupManager.autoBackupInterval
+            if (interval == AutoBackupInterval.OFF) {
+                return Result.success()
+            }
+            if (backupManager.accountEmail.isNullOrBlank()) {
+                return Result.success()
+            }
+
+            val auth = backupManager.authorizeDrive()
+            if (auth !is DriveAuthOutcome.Granted) {
+                val errorMsg = context.getString(R.string.notif_auth_expired_msg)
+                backupManager.lastBackupError = errorMsg
+                showAuthExpiredNotification(context)
+                return Result.failure()
+            }
+
+            return try {
+                val database = MyMoneyDatabase.getDatabase(context)
+                val transactions = database.transactionDao().getAllTransactionsSync()
+                val loans = database.loanDao().getAllLoansSync()
+                val repayments = database.loanRepaymentDao().getAllRepaymentsSync()
+                val budgets = database.budgetDao().getAllBudgetsSync()
+                val categories = database.categoryDao().getAllCategoriesSync()
+
+                val snapshot = BackupData(transactions, loans, repayments, budgets, categories)
+                val existingFiles = DriveRestClient.listBackupFiles(auth.accessToken)
+                if (!snapshot.hasRecords() && existingFiles.isNotEmpty()) {
+                    // Database is empty but cloud backup exists: do not overwrite
+                    return Result.success()
+                }
+
+                val json = DataBackupService.exportToJson(
+                    transactions,
+                    loans,
+                    repayments,
+                    budgets,
+                    categories,
+                    settings = mapOf(
+                        "currencyCode" to CurrencyManager.currentCurrency.code
+                    )
+                )
+
+                val uploadResult = backupManager.uploadBackup(auth.accessToken, json)
+                if (uploadResult.isSuccess) {
+                    Result.success()
+                } else {
+                    val err = uploadResult.exceptionOrNull()
+                    val msg = err?.message ?: context.getString(R.string.err_gdrive_backup_failed)
+                    backupManager.lastBackupError = msg
+                    if (err is DriveApiException && (err.statusCode == 401 || err.statusCode == 403)) {
+                        showAuthExpiredNotification(context)
+                    }
+                    Result.retry()
+                }
+            } catch (e: Exception) {
+                val msg = e.message ?: context.getString(R.string.err_gdrive_backup_failed)
+                backupManager.lastBackupError = msg
+                if (e is DriveApiException && (e.statusCode == 401 || e.statusCode == 403)) {
+                    showAuthExpiredNotification(context)
+                }
+                Result.retry()
+            }
+        }
 
         fun schedule(context: Context, interval: AutoBackupInterval) {
             val workManager = WorkManager.getInstance(context.applicationContext)

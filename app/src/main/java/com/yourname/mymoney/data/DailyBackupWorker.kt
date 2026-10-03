@@ -6,11 +6,11 @@ import androidx.work.WorkerParameters
 
 class DailyBackupWorker(
     context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params) {
+    workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        return AutoBackupWorker(applicationContext, params).doWork()
+        return AutoBackupWorker.performBackup(applicationContext)
     }
 
     companion object {

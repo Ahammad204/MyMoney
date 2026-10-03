@@ -96,6 +96,21 @@ fun LoansScreen(
         loansWithDetails.count { it.isOverdue }
     }
 
+    val labelActive = stringResource(R.string.filter_active)
+    val labelOverdue = if (overdueCount > 0) stringResource(R.string.filter_overdue_count, overdueCount) else stringResource(R.string.filter_overdue)
+    val labelLent = stringResource(R.string.loan_i_lent_short)
+    val labelBorrowed = stringResource(R.string.loan_i_borrowed_short)
+    val labelSettled = stringResource(R.string.loans_settled_badge)
+    val labelAll = stringResource(R.string.filter_all)
+    val filterChipItems = listOf(
+        "ACTIVE" to labelActive,
+        "OVERDUE" to labelOverdue,
+        "LENT" to labelLent,
+        "BORROWED" to labelBorrowed,
+        "SETTLED" to labelSettled,
+        "ALL" to labelAll
+    )
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
@@ -301,21 +316,6 @@ fun LoansScreen(
 
             // Filter chips (Only for All Loans mode)
             if (viewMode == LoanTabMode.ALL_LOANS) {
-                val labelActive = stringResource(R.string.filter_active)
-                val labelOverdue = if (overdueCount > 0) stringResource(R.string.filter_overdue_count, overdueCount) else stringResource(R.string.filter_overdue)
-                val labelLent = stringResource(R.string.loan_i_lent_short)
-                val labelBorrowed = stringResource(R.string.loan_i_borrowed_short)
-                val labelSettled = stringResource(R.string.loans_settled_badge)
-                val labelAll = stringResource(R.string.filter_all)
-                val filterChipItems = listOf(
-                    "ACTIVE" to labelActive,
-                    "OVERDUE" to labelOverdue,
-                    "LENT" to labelLent,
-                    "BORROWED" to labelBorrowed,
-                    "SETTLED" to labelSettled,
-                    "ALL" to labelAll
-                )
-
                 item {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         filterChipItems.forEach { (key, label) ->

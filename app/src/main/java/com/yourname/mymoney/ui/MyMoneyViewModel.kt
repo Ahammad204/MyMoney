@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.yourname.mymoney.R
 import com.yourname.mymoney.data.AutoBackupInterval
 import com.yourname.mymoney.data.AutoBackupWorker
@@ -50,7 +51,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Calendar
 import java.util.Locale
-import com.yourname.mymoney.R
 
 data class SelectedMonth(
     val year: Int,
