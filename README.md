@@ -1,22 +1,54 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# MyMoney
 
-# Run and deploy your AI Studio app
+A clean, modern, and privacy-focused personal finance and expense manager for Android, built with Jetpack Compose, Room, and Material 3.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/f2b71c11-92bf-48de-a133-30bb3d3268e0
+- **Expense & Income Tracking**: Record and categorize daily transactions with ease.
+- **Loan & Debt Manager**: Keep track of borrowed and lent money, repayments, and due dates.
+- **Budgeting & Insights**: Set category spending limits and monitor monthly budgets.
+- **Offline-First & Private**: All data is stored locally in an encrypted Room database.
+- **Google Drive Backup & Restore**: Securely sync and restore backups to your private Google Drive app storage.
+- **AI Financial Assistant**: Optional Gemini-powered receipt scanning, natural language transaction entry, and spending insights using your own Gemini API key.
+- **Bilingual & Currency Flexible**: Full support for English and Bengali (বাংলা), and custom currency formats (৳, $, €, etc.).
+- **Automatic Updates**: Check for new releases directly within the app.
 
-## Run Locally
+---
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
+## Getting Started
 
+### Prerequisites
+- Android Studio Ladybug | 2024.2+ (or newer)
+- Android SDK 35+
+- JDK 17
 
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
-7. If you have already published your app in AI Studio, please [request upload key reset](https://support.google.com/googleplay/android-developer/answer/9842756#zippy=%2Crequest-an-upload-key-reset) in Google Play Console.
+### Building from Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ahammad204/MyMoney.git
+   ```
+2. Open the project in Android Studio.
+3. Sync Gradle and build the project:
+   ```bash
+   ./gradlew assembleDebug
+   ```
+4. Run on your Android emulator or physical device.
+
+---
+
+## Architecture & Tech Stack
+
+- **UI**: 100% Jetpack Compose with Material 3 design and dynamic theming (Dark & Light modes).
+- **Architecture**: MVVM with Kotlin Coroutines and StateFlow.
+- **Database**: Room Database with migrations and offline persistence.
+- **Cloud Backup**: Google Drive REST API integration using Credential Manager.
+- **Background Tasks**: Android WorkManager for scheduled daily backups and recurring transactions.
+- **Security**: Android Keystore encryption for secure API key storage.
+- **CI/CD**: Automated GitHub Actions workflow for building and publishing signed APK releases.
+
+---
+
+## License
+
+This project is licensed under the Apache License 2.0.

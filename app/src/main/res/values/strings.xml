@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">MyMoney</string>
     <string name="ai_needs_internet">AI features require an active internet connection</string>
     <string name="ai_key_missing_msg">Add your Gemini API key in Settings to use AI</string>
     <string name="ai_settings_btn">Settings</string>

@@ -9,7 +9,7 @@
 -keep class * extends androidx.room.RoomDatabase
 -dontwarn androidx.room.paging.**
 -keep class androidx.room.** { *; }
--keep class com.example.data.** { *; }
+-keep class com.yourname.mymoney.data.** { *; }
 -keepclassmembers class * extends androidx.room.RoomDatabase {
     <init>(...);
 }

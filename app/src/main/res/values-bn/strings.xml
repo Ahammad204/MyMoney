@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">মাইমানি</string>
     <string name="ai_needs_internet">এআই ফিচারের জন্য সক্রিয় ইন্টারনেট সংযোগ প্রয়োজন</string>
     <string name="ai_key_missing_msg">এআই ব্যবহার করতে সেটিংসে আপনার জেমিনাই এপিআই কী যোগ করুন</string>
     <string name="ai_settings_btn">সেটিংস</string>
