@@ -1,11 +1,13 @@
-﻿package com.yourname.mymoney.ui
+package com.yourname.mymoney.ui
 
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
+import com.yourname.mymoney.R
+import com.yourname.mymoney.data.AutoBackupInterval
+import com.yourname.mymoney.data.AutoBackupWorker
 import com.yourname.mymoney.data.BackupData
 import com.yourname.mymoney.data.BudgetEntity
 import com.yourname.mymoney.data.CategoryBudgetStatus
@@ -13,6 +15,7 @@ import com.yourname.mymoney.data.CategoryEntity
 import com.yourname.mymoney.data.DailyBackupWorker
 import com.yourname.mymoney.data.DataBackupService
 import com.yourname.mymoney.data.DriveAuthOutcome
+import com.yourname.mymoney.data.DriveRestClient
 import com.yourname.mymoney.data.GoogleDriveBackupManager
 import com.yourname.mymoney.data.LoanEntity
 import com.yourname.mymoney.data.LoanRepaymentEntity
@@ -688,7 +691,7 @@ class MyMoneyViewModel(application: Application) : AndroidViewModel(application)
             }
             settings["darkThemeMode"]?.let { mode ->
                 if (mode in listOf("SYSTEM", "LIGHT", "DARK")) {
-                    setThemeMode(mode)
+                    setDarkThemeMode(mode)
                 }
             }
         }

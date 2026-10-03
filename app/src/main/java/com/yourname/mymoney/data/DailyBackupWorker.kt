@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.data
+package com.yourname.mymoney.data
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -10,7 +10,7 @@ class DailyBackupWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        return AutoBackupWorker(applicationContext, workerParams).doWork()
+        return AutoBackupWorker(applicationContext, params).doWork()
     }
 
     companion object {

@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.components
+package com.yourname.mymoney.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -397,26 +397,28 @@ fun MonthlyInsightsDialog(
                             Text(stringResource(R.string.insights_generating), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
-                } else if (errorMessage != null) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = stringResource(R.string.insights_error, errorMessage),
-                            color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Button(onClick = { fetchInsights() }) {
-                            Icon(Icons.Default.RestartAlt, contentDescription = null, modifier = Modifier.size(16.dp))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(stringResource(R.string.common_retry))
+                } else {
+                    val currentError = errorMessage
+                    if (currentError != null) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = stringResource(R.string.insights_error, currentError),
+                                color = MaterialTheme.colorScheme.error,
+                                fontSize = 12.sp
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Button(onClick = { fetchInsights() }) {
+                                Icon(Icons.Default.RestartAlt, contentDescription = null, modifier = Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(stringResource(R.string.common_retry))
+                            }
                         }
-                    }
-                } else insights?.let { data ->
+                    } else insights?.let { data ->
                     // Summary card
                     Card(
                         shape = RoundedCornerShape(16.dp),
