@@ -18,6 +18,7 @@ local.properties
 debug.keystore
 *.jks
 *.keystore
+keystore/
 *.p12
 *.key
 release.keystore
