@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.components
+package com.yourname.mymoney.ui.components
 
 import android.content.Context
 import android.content.Intent
@@ -197,14 +197,19 @@ fun SettingsDialog(
         }
     }
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp)
+                .androidx.compose.foundation.layout.widthIn(max = 560.dp)
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .androidx.compose.foundation.layout.imePadding()
         ) {
             Column(
                 modifier = Modifier

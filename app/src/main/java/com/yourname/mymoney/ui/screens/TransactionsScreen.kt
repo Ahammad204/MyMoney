@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.screens
+package com.yourname.mymoney.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,6 +69,9 @@ import java.util.Calendar
 import androidx.compose.ui.res.stringResource
 import com.yourname.mymoney.R
 
+import com.yourname.mymoney.ai.AiEntryResult
+import com.yourname.mymoney.ui.components.AiQuickEntryCard
+
 enum class DateRangeFilter(val label: String) {
     ALL_TIME("All Time"),
     TODAY("Today"),
@@ -86,6 +89,10 @@ fun TransactionsScreen(
     onAddTransactionClick: () -> Unit,
     onEditTransactionClick: (TransactionEntity) -> Unit,
     onDeleteTransactionClick: (TransactionEntity) -> Unit,
+    isOnline: Boolean = true,
+    isAiConfigured: Boolean = false,
+    onAiParsed: (AiEntryResult, String) -> Unit = { _, _ -> },
+    onOpenSettingsClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var searchQuery by remember { mutableStateOf("") }
@@ -241,14 +248,20 @@ fun TransactionsScreen(
             }
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .testTag("transactions_list_column"),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .padding(innerPadding),
+            contentAlignment = Alignment.TopCenter
         ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .testTag("transactions_list_column"),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
             // Header
             item {
                 Row(
@@ -304,6 +317,17 @@ fun TransactionsScreen(
                 }
             }
 
+            // AI QUICK-ENTRY BOX
+            item {
+                AiQuickEntryCard(
+                    categories = categories,
+                    isOnline = isOnline,
+                    isAiConfigured = isAiConfigured,
+                    onAiParsed = onAiParsed,
+                    onOpenSettingsClick = onOpenSettingsClick
+                )
+            }
+
             // 1. SEARCH BAR
             item {
                 OutlinedTextField(
@@ -328,11 +352,12 @@ fun TransactionsScreen(
                 )
             }
 
-            // 2. TYPE FILTER (All, Income, Expense)
+            // 2. TYPE FILTER (All, Income, Expense, Recurring)
             item {
-                Row(
+                androidx.compose.foundation.layout.FlowRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     listOf(
                         "ALL" to stringResource(R.string.filter_all),
@@ -354,7 +379,6 @@ fun TransactionsScreen(
                                 MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                             },
                             modifier = Modifier
-                                .weight(1f)
                                 .clip(RoundedCornerShape(12.dp))
                                 .clickable { selectedTypeFilter = typeKey }
                                 .testTag("filter_type_$typeKey")
@@ -364,7 +388,7 @@ fun TransactionsScreen(
                                 fontSize = 11.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                 color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(vertical = 8.dp),
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
                         }
@@ -522,6 +546,7 @@ fun TransactionsScreen(
             }
 
             if (filteredTransactions.isEmpty()) {
+                val hasAnyTransactions = transactions.isNotEmpty()
                 item {
                     Card(
                         shape = RoundedCornerShape(16.dp),
@@ -546,15 +571,21 @@ fun TransactionsScreen(
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = stringResource(R.string.tx_no_match),
+                                text = if (hasAnyTransactions) stringResource(R.string.tx_no_match) else stringResource(R.string.tx_empty),
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = stringResource(R.string.tx_no_match_sub),
+                                text = if (hasAnyTransactions) stringResource(R.string.tx_no_match_sub) else stringResource(R.string.tx_empty_sub),
                                 fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
+                            if (!hasAnyTransactions) {
+                                Spacer(modifier = Modifier.height(12.dp))
+                                TextButton(onClick = onAddTransactionClick) {
+                                    Text(stringResource(R.string.home_add_tx_btn))
+                                }
+                            }
                         }
                     }
                 }
@@ -568,5 +599,26 @@ fun TransactionsScreen(
                 }
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Composable
+private fun TransactionsScreenPreview() {
+    MaterialTheme {
+        TransactionsScreen(
+            transactions = emptyList(),
+            categories = listOf("Food", "Transport", "Bills", "Shopping", "Salary"),
+            onAddTransactionClick = {},
+            onEditTransactionClick = {},
+            onDeleteTransactionClick = {},
+            onAiParsed = { _, _ -> },
+            onOpenSettingsClick = {}
+        )
     }
 }

@@ -331,16 +331,25 @@ fun MonthlyInsightsDialog(
         fetchInsights()
     }
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .androidx.compose.foundation.layout.widthIn(max = 520.dp)
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .androidx.compose.foundation.layout.imePadding()
         ) {
-            Column(modifier = Modifier.padding(20.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .androidx.compose.foundation.verticalScroll(androidx.compose.foundation.rememberScrollState())
+            ) {
                 // Header
                 Row(
                     modifier = Modifier.fillMaxWidth(),

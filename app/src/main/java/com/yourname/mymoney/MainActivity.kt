@@ -404,9 +404,6 @@ fun MyMoneyApp(
                         onPreviousMonth = { viewModel.selectPreviousMonth() },
                         onNextMonth = { viewModel.selectNextMonth() },
                         onResetToCurrentMonth = { viewModel.resetToCurrentMonth() },
-                        onAiParsed = { parsed, raw ->
-                            aiEntryToPreview = parsed to raw
-                        },
                         onOpenSettingsClick = { showSettingsDialog = true },
                         onScanReceiptClick = {
                             if (!isApiKeyConfigured) {
@@ -430,12 +427,6 @@ fun MyMoneyApp(
                                 )
                             }
                         },
-                        onResetDemoData = {
-                            viewModel.resetDemoData()
-                            scope.launch {
-                                snackbarHostState.showSnackbar(context.getString(R.string.snack_sample_reloaded))
-                            }
-                        },
                         onClearAllData = {
                             viewModel.clearAllData()
                             scope.launch {
@@ -451,6 +442,12 @@ fun MyMoneyApp(
                     TransactionsScreen(
                         transactions = transactions,
                         categories = categories,
+                        isOnline = isOnline,
+                        isAiConfigured = isApiKeyConfigured,
+                        onAiParsed = { parsed, raw ->
+                            aiEntryToPreview = parsed to raw
+                        },
+                        onOpenSettingsClick = { showSettingsDialog = true },
                         onAddTransactionClick = {
                             addTxInitialType = "EXPENSE"
                             transactionToEdit = null

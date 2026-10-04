@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.components
+package com.yourname.mymoney.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -110,7 +110,9 @@ fun ExpensePieChart(
                 // DONUT / PIE CANVAS
                 Box(
                     modifier = Modifier
-                        .size(190.dp)
+                        .fillMaxWidth(0.65f)
+                        .androidx.compose.foundation.layout.sizeIn(maxWidth = 190.dp, maxHeight = 190.dp)
+                        .androidx.compose.foundation.layout.aspectRatio(1f)
                         .testTag("pie_chart_canvas_box"),
                     contentAlignment = Alignment.Center
                 ) {
@@ -301,64 +303,79 @@ fun SixMonthCashflowBarChart(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Tooltip if month selected
-            selectedMonthIndex?.let { index ->
-                if (index in bars.indices) {
-                    val bar = bars[index]
-                    Surface(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+            val hasAnyCashflow = bars.any { it.income > 0.0 || it.expense > 0.0 }
+            if (!hasAnyCashflow) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(140.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.chart_no_data),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else {
+                // Tooltip if month selected
+                selectedMonthIndex?.let { index ->
+                    if (index in bars.indices) {
+                        val bar = bars[index]
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 12.dp)
                         ) {
-                            Text(
-                                text = bar.yearMonthDisplay,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 12.sp
-                            )
-                            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
-                                    text = stringResource(R.string.chart_in, formatCurrency(bar.income)),
-                                    color = IncomeGreen,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold
+                                    text = bar.yearMonthDisplay,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
                                 )
-                                Text(
-                                    text = stringResource(R.string.chart_out, formatCurrency(bar.expense)),
-                                    color = ExpenseRed,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    text = stringResource(R.string.chart_net, formatCurrency(bar.net)),
-                                    color = if (bar.net >= 0) IncomeGreen else ExpenseRed,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
+                                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    Text(
+                                        text = stringResource(R.string.chart_in, formatCurrency(bar.income)),
+                                        color = IncomeGreen,
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.chart_out, formatCurrency(bar.expense)),
+                                        color = ExpenseRed,
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.chart_net, formatCurrency(bar.net)),
+                                        color = if (bar.net >= 0) IncomeGreen else ExpenseRed,
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            // BARS DISPLAY
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(170.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                bars.forEachIndexed { index, bar ->
-                    val isSelected = selectedMonthIndex == index
-                    val incomeFrac = (bar.income / maxAmount).coerceIn(0.02, 1.0).toFloat()
-                    val expenseFrac = (bar.expense / maxAmount).coerceIn(0.02, 1.0).toFloat()
+                // BARS DISPLAY
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(170.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    bars.forEachIndexed { index, bar ->
+                        val isSelected = selectedMonthIndex == index
+                        val incomeFrac = if (bar.income > 0) (bar.income / maxAmount).coerceIn(0.04, 1.0).toFloat() else 0.02f
+                        val expenseFrac = if (bar.expense > 0) (bar.expense / maxAmount).coerceIn(0.04, 1.0).toFloat() else 0.02f
 
                     Column(
                         modifier = Modifier

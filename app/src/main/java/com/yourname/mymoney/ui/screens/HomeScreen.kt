@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.screens
+package com.yourname.mymoney.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -114,10 +114,8 @@ fun HomeScreen(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onResetToCurrentMonth: () -> Unit,
-    onAiParsed: (AiEntryResult, String) -> Unit,
     onOpenSettingsClick: () -> Unit,
     onScanReceiptClick: () -> Unit,
-    onResetDemoData: () -> Unit,
     onClearAllData: () -> Unit,
     isOnline: Boolean = true,
     isAiConfigured: Boolean = false,
@@ -125,10 +123,6 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     var showMenu by remember { mutableStateOf(false) }
-    var aiInputText by remember { mutableStateOf("") }
-    var isAiAnalyzing by remember { mutableStateOf(false) }
-    var aiErrorMessage by remember { mutableStateOf<String?>(null) }
-    val coroutineScope = rememberCoroutineScope()
 
     val todayFormatted = remember {
         SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()).format(Date())
@@ -154,14 +148,20 @@ fun HomeScreen(
             }
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .testTag("home_screen_column"),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 80.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+                .padding(innerPadding),
+            contentAlignment = Alignment.TopCenter
         ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .testTag("home_screen_column"),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
             // App Header
             item {
                 Row(
@@ -283,16 +283,6 @@ fun HomeScreen(
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.home_menu_reload)) },
-                                    leadingIcon = {
-                                        Icon(Icons.Default.RestartAlt, contentDescription = null)
-                                    },
-                                    onClick = {
-                                        showMenu = false
-                                        onResetDemoData()
-                                    }
-                                )
-                                DropdownMenuItem(
                                     text = { Text(stringResource(R.string.home_menu_clear), color = MaterialTheme.colorScheme.error) },
                                     leadingIcon = {
                                         Icon(
@@ -391,211 +381,7 @@ fun HomeScreen(
                 }
             }
 
-            // AI QUICK-ENTRY BOX
-            item {
-                Card(
-                    shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    border = androidx.compose.foundation.BorderStroke(
-                        1.dp,
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("ai_quick_entry_card")
-                ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.AutoAwesome,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(15.dp)
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = stringResource(R.string.home_ai_quick),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
 
-                            if (!isOnline) {
-                                Surface(
-                                    shape = RoundedCornerShape(6.dp),
-                                    color = MaterialTheme.colorScheme.errorContainer
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.ai_needs_internet),
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.error,
-                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                                    )
-                                }
-                            } else {
-                                Text(
-                                    text = stringResource(R.string.home_ai_autodetect),
-                                    fontSize = 11.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        if (!isAiConfigured) {
-                            Surface(
-                                shape = RoundedCornerShape(12.dp),
-                                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
-                                border = androidx.compose.foundation.BorderStroke(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
-                                ),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Row(
-                                        modifier = Modifier.weight(1f),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Key,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(20.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(10.dp))
-                                        Text(
-                                            text = stringResource(R.string.ai_key_missing_msg),
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Button(
-                                        onClick = onOpenSettingsClick,
-                                        shape = RoundedCornerShape(10.dp),
-                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                                        modifier = Modifier.testTag("ai_open_settings_btn")
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.ai_settings_btn),
-                                            fontSize = 12.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
-                                }
-                            }
-                        } else {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                OutlinedTextField(
-                                    value = aiInputText,
-                                    onValueChange = {
-                                        aiInputText = it
-                                        aiErrorMessage = null
-                                    },
-                                    placeholder = {
-                                        Text(
-                                            text = if (!isOnline) stringResource(R.string.ai_needs_internet) else stringResource(R.string.home_ai_placeholder),
-                                            fontSize = 12.sp
-                                        )
-                                    },
-                                    enabled = isOnline,
-                                    singleLine = true,
-                                    shape = RoundedCornerShape(12.dp),
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .testTag("ai_quick_entry_input")
-                                )
-
-                                Button(
-                                    onClick = {
-                                        if (!isOnline) {
-                                            aiErrorMessage = context.getString(R.string.ai_needs_internet)
-                                            return@Button
-                                        }
-                                        val trimmed = aiInputText.trim()
-                                        if (trimmed.isNotBlank() && !isAiAnalyzing) {
-                                            isAiAnalyzing = true
-                                            aiErrorMessage = null
-                                            coroutineScope.launch {
-                                                val res = GeminiClient.parseNaturalLanguageEntry(context, trimmed, categories)
-                                                isAiAnalyzing = false
-                                                res.onSuccess { parsed ->
-                                                    val original = trimmed
-                                                    aiInputText = ""
-                                                    onAiParsed(parsed, original)
-                                                }.onFailure { err ->
-                                                    aiErrorMessage = err.message ?: context.getString(R.string.err_analyze_entry)
-                                                }
-                                            }
-                                        }
-                                    },
-                                    enabled = isOnline && aiInputText.isNotBlank() && !isAiAnalyzing,
-                                    shape = RoundedCornerShape(12.dp),
-                                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 12.dp),
-                                    modifier = Modifier
-                                        .height(52.dp)
-                                        .testTag("ai_quick_entry_submit_button")
-                                ) {
-                                    if (isAiAnalyzing) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier.size(18.dp),
-                                            color = Color.White,
-                                            strokeWidth = 2.dp
-                                        )
-                                    } else {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(
-                                                imageVector = Icons.Default.AutoAwesome,
-                                                contentDescription = stringResource(R.string.parse),
-                                                modifier = Modifier.size(16.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(stringResource(R.string.parse), fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (aiErrorMessage != null) {
-                                Spacer(modifier = Modifier.height(6.dp))
-                                Text(
-                                    text = aiErrorMessage ?: "",
-                                    color = MaterialTheme.colorScheme.error,
-                                    fontSize = 11.sp
-                                )
-                            }
-                        }
-                    }
-                }
-            }
 
             // TODAY'S SUMMARY CARD
             item {
@@ -1153,5 +939,46 @@ fun HomeScreen(
                 }
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Composable
+private fun HomeScreenPreview() {
+    MaterialTheme {
+        HomeScreen(
+            overview = FinanceOverview(
+                currentBalance = 15000.0,
+                totalIncomeThisMonth = 30000.0,
+                totalExpenseThisMonth = 15000.0,
+                netSavingsThisMonth = 15000.0,
+                todayIncome = 0.0,
+                todayExpense = 250.0,
+                todayNet = -250.0,
+                totalLentActive = 5000.0,
+                totalBorrowedActive = 2000.0,
+                savingsRate = 50,
+                selectedMonthDisplayName = "October 2026",
+                isCurrentMonthSelected = true
+            ),
+            transactions = emptyList(),
+            categories = listOf("Food", "Transport", "Bills", "Salary"),
+            onAddTransactionClick = {},
+            onEditTransactionClick = {},
+            onDeleteTransactionClick = {},
+            onAddLoanClick = {},
+            onViewAllTransactions = {},
+            onPreviousMonth = {},
+            onNextMonth = {},
+            onResetToCurrentMonth = {},
+            onOpenSettingsClick = {},
+            onScanReceiptClick = {},
+            onClearAllData = {}
+        )
     }
 }

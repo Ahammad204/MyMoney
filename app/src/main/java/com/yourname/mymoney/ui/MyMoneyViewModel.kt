@@ -953,20 +953,10 @@ class MyMoneyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun resetDemoData() {
-        viewModelScope.launch {
-            repository.clearAll()
-            repository.seedCategoriesIfEmpty()
-            repository.seedBudgetsIfEmpty()
-            repository.seedSampleData()
-        }
-    }
-
     fun clearAllData() {
         viewModelScope.launch {
             repository.clearAll()
             repository.seedCategoriesIfEmpty()
-            repository.seedBudgetsIfEmpty()
         }
     }
 

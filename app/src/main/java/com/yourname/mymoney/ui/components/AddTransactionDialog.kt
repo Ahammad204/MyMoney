@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.components
+package com.yourname.mymoney.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -161,15 +161,19 @@ fun AddTransactionDialog(
         }
     }
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .widthIn(max = 480.dp)
-                .padding(vertical = 12.dp)
+                .widthIn(max = 520.dp)
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .androidx.compose.foundation.layout.imePadding()
         ) {
             Column(
                 modifier = Modifier

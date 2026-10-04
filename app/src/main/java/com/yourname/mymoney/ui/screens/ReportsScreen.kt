@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.screens
+package com.yourname.mymoney.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -110,13 +110,18 @@ fun ReportsScreen(
         }
     }
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("reports_column"),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                .testTag("reports_column"),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
         // Header & Month Switcher
         item {
             Row(
@@ -493,6 +498,42 @@ fun ReportsScreen(
                 )
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Composable
+private fun ReportsScreenPreview() {
+    MaterialTheme {
+        ReportsScreen(
+            overview = FinanceOverview(
+                currentBalance = 15000.0,
+                totalIncomeThisMonth = 30000.0,
+                totalExpenseThisMonth = 15000.0,
+                netSavingsThisMonth = 15000.0,
+                todayIncome = 0.0,
+                todayExpense = 250.0,
+                todayNet = -250.0,
+                totalLentActive = 5000.0,
+                totalBorrowedActive = 2000.0,
+                savingsRate = 50,
+                selectedMonthDisplayName = "October 2026",
+                isCurrentMonthSelected = true
+            ),
+            transactions = emptyList(),
+            budgets = emptyList(),
+            sixMonthBars = emptyList(),
+            onPreviousMonth = {},
+            onNextMonth = {},
+            onSetBudgetClick = { _, _ -> },
+            onAskAiClick = {},
+            onMonthlyInsightsClick = {}
+        )
     }
 }
 

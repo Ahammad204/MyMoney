@@ -127,14 +127,20 @@ fun LoansScreen(
             }
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .testTag("loans_list_column"),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+                .padding(innerPadding),
+            contentAlignment = Alignment.TopCenter
         ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .testTag("loans_list_column"),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
             // Header
             item {
                 Column {
@@ -351,6 +357,7 @@ fun LoansScreen(
             // CONTENT SECTION
             if (viewMode == LoanTabMode.ALL_LOANS) {
                 if (filteredLoans.isEmpty()) {
+                    val hasAnyLoans = loansWithDetails.isNotEmpty()
                     item {
                         Card(
                             shape = RoundedCornerShape(16.dp),
@@ -373,15 +380,21 @@ fun LoansScreen(
                                 )
                                 Spacer(modifier = Modifier.height(10.dp))
                                 Text(
-                                    text = stringResource(R.string.loans_no_filter),
+                                    text = if (hasAnyLoans) stringResource(R.string.loans_no_filter) else stringResource(R.string.loans_empty),
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = stringResource(R.string.loans_no_filter_sub),
+                                    text = if (hasAnyLoans) stringResource(R.string.loans_no_filter_sub) else stringResource(R.string.loans_empty_sub),
                                     fontSize = 12.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
+                                if (!hasAnyLoans) {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    TextButton(onClick = onAddLoanClick) {
+                                        Text(stringResource(R.string.home_label_add_loan))
+                                    }
+                                }
                             }
                         }
                     }
@@ -423,6 +436,15 @@ fun LoansScreen(
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
+                                Text(
+                                    text = stringResource(R.string.loans_empty_sub),
+                                    fontSize = 12.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Spacer(modifier = Modifier.height(12.dp))
+                                TextButton(onClick = onAddLoanClick) {
+                                    Text(stringResource(R.string.home_label_add_loan))
+                                }
                             }
                         }
                     }
@@ -762,5 +784,38 @@ fun PersonSummaryCard(
                 }
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Composable
+private fun LoansScreenPreview() {
+    MaterialTheme {
+        LoansScreen(
+            loansWithDetails = emptyList(),
+            personSummaries = emptyList(),
+            overview = FinanceOverview(
+                currentBalance = 10000.0,
+                totalIncomeThisMonth = 20000.0,
+                totalExpenseThisMonth = 10000.0,
+                netSavingsThisMonth = 10000.0,
+                todayIncome = 0.0,
+                todayExpense = 0.0,
+                todayNet = 0.0,
+                totalLentActive = 3000.0,
+                totalBorrowedActive = 1000.0,
+                savingsRate = 50,
+                selectedMonthDisplayName = "October 2026",
+                isCurrentMonthSelected = true
+            ),
+            onAddLoanClick = {},
+            onLoanClick = {},
+            onAddPayment = {}
+        )
     }
 }

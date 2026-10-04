@@ -125,13 +125,12 @@
     <string name="home_label_add_loan">ঋণ যোগ</string>
     <string name="home_label_scan">রসিদ স্ক্যান</string>
     <string name="home_menu_clear">সমস্ত ডেটা মুছে ফেলুন</string>
-    <string name="home_menu_reload">নমুনা ডেটা পুনরায় লোড করুন</string>
     <string name="home_menu_scan">রসিদ স্ক্যান করুন</string>
     <string name="home_menu_settings">সেটিংস</string>
     <string name="home_net_in_month">%1$s মাসে নিট: %2$s</string>
     <string name="home_net_savings_month">%1$s মাসে নিট সঞ্চয়</string>
     <string name="home_net_today">আজকের নিট</string>
-    <string name="home_no_tx">কোনো লেনদেন পাওয়া যায়নি</string>
+    <string name="home_no_tx">এখনও কোনো লেনদেন নেই। আপনার প্রথম লেনদেন যোগ করতে + চাপুন।</string>
     <string name="home_no_tx_sub">আপনার টাকা ট্র্যাক করতে লেনদেন যোগ করুন</string>
     <string name="home_past_month">অতীতের মাস দেখা হচ্ছে</string>
     <string name="home_recent">সাম্প্রতিক লেনদেন</string>
@@ -180,6 +179,8 @@
     <string name="loans_fully_paid">সম্পূর্ণ পরিশোধিত</string>
     <string name="loans_loan_date">ঋণের তারিখ: %1$s</string>
     <string name="loans_must_pay">আপনাকে দিতে হবে</string>
+    <string name="loans_empty">এখনও কোনো ঋণ বা দেনা-পাওনা নেই। যোগ করতে + চাপুন।</string>
+    <string name="loans_empty_sub">আপনার ধার দেওয়া ও নেওয়ার হিসাব এক জায়গায় রাখুন</string>
     <string name="loans_no_filter">এই ফিল্টারে কোনো ঋণ নেই</string>
     <string name="loans_no_filter_sub">উপরের ফিল্টার পরিবর্তন করুন বা নতুন ঋণ যোগ করুন</string>
     <string name="loans_no_people">এখনো কোনো ব্যক্তির তথ্য নেই</string>
@@ -342,7 +343,6 @@
     <string name="snack_restored_replace">ব্যাকআপ পুনরুদ্ধার সম্পন্ন (সব ডেটা প্রতিস্থাপিত)</string>
     <string name="snack_rule_paused">পুনরাবৃত্ত নিয়ম স্থগিত করা হয়েছে</string>
     <string name="snack_rule_resumed">পুনরাবৃত্ত নিয়ম পুনরায় চালু করা হয়েছে</string>
-    <string name="snack_sample_reloaded">নমুনা ডেটা সফলভাবে পুনরায় লোড করা হয়েছে</string>
     <string name="snack_saved_entry">%1$s এন্ট্রি সংরক্ষিত হয়েছে: %2$s</string>
     <string name="snack_saved_loan">%1$s-এর ঋণ সংরক্ষিত হয়েছে (%2$s)</string>
     <string name="snack_tx_updated">লেনদেন আপডেট করা হয়েছে</string>
@@ -364,6 +364,8 @@
     <string name="tx_delete_rule">নিয়ম মুছুন</string>
     <string name="tx_desc_label">বিবরণ / শিরোনাম</string>
     <string name="tx_edit_record">লেনদেন সম্পাদনা করুন</string>
+    <string name="tx_empty">এখনও কোনো লেনদেন নেই। আপনার প্রথম লেনদেন যোগ করতে + চাপুন।</string>
+    <string name="tx_empty_sub">সহজেই আপনার আয় ও ব্যয়ের হিসাব রাখা শুরু করুন</string>
     <string name="tx_from">শুরু: %1$s</string>
     <string name="tx_new_category">+ নতুন ক্যাটাগরি</string>
     <string name="tx_no_match">আপনার অনুসন্ধানের সাথে কোনো লেনদেন মেলেনি</string>

@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.ui.components
+package com.yourname.mymoney.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -71,14 +71,19 @@ fun LoanDetailsDialog(
 
     val progressFraction = if (total > 0) (paid / total).coerceIn(0.0, 1.0).toFloat() else 0f
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .androidx.compose.foundation.layout.widthIn(max = 520.dp)
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .androidx.compose.foundation.layout.imePadding()
         ) {
             Column(
                 modifier = Modifier
