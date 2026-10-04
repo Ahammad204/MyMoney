@@ -1,4 +1,4 @@
-﻿package com.yourname.mymoney.data
+package com.yourname.mymoney.data
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -130,6 +130,7 @@ class GoogleDriveBackupManager(context: Context) {
 
     fun signOut() {
         accountEmail = null
+        cachedAccessToken = null
         driveFileId = null
         cachedAppDataBackup = null
         lastBackupError = null
@@ -185,11 +186,21 @@ class GoogleDriveBackupManager(context: Context) {
         }
     }
 
+    private var cachedAccessToken: String? = null
+
     suspend fun authorizeDrive(): DriveAuthOutcome = withContext(Dispatchers.IO) {
+        val currentToken = cachedAccessToken
+        if (!currentToken.isNullOrBlank()) {
+            return@withContext DriveAuthOutcome.Granted(currentToken)
+        }
         try {
-            val request = AuthorizationRequest.Builder()
+            val builder = AuthorizationRequest.Builder()
                 .setRequestedScopes(listOf(Scope(SCOPE_DRIVE_APPDATA)))
-                .build()
+            val email = accountEmail
+            if (!email.isNullOrBlank()) {
+                builder.setAccount(android.accounts.Account(email, "com.google"))
+            }
+            val request = builder.build()
             val result = Identity.getAuthorizationClient(appContext)
                 .authorize(request)
                 .await()
@@ -202,6 +213,11 @@ class GoogleDriveBackupManager(context: Context) {
     }
 
     fun completeAuthorization(resultCode: Int, data: Intent?): DriveAuthOutcome {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            val msg = "Google Drive authorization was cancelled. Please tap 'Back Up Now' to grant access."
+            lastBackupError = msg
+            return DriveAuthOutcome.Failed(msg)
+        }
         if (resultCode != Activity.RESULT_OK || data == null) {
             val msg = "Google Drive access was declined. The app needs the drive.appdata scope to back up."
             lastBackupError = msg
@@ -307,6 +323,7 @@ class GoogleDriveBackupManager(context: Context) {
         return if (token.isNullOrBlank()) {
             DriveAuthOutcome.Failed("Google Drive access was not granted.")
         } else {
+            cachedAccessToken = token
             DriveAuthOutcome.Granted(token)
         }
     }
