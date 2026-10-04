@@ -1,5 +1,7 @@
 package com.yourname.mymoney
 
+import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.Dp
 
 import android.graphics.Bitmap
