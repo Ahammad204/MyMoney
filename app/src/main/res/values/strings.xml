@@ -112,7 +112,7 @@
     <string name="filter_all">All</string>
     <string name="filter_overdue">Overdue</string>
     <string name="filter_overdue_count">Overdue (%1$d)</string>
-    <string name="google_web_client_id" translatable="false">REPLACE_WITH_WEB_CLIENT_ID.apps.googleusercontent.com</string>
+    <string name="google_web_client_id" translatable="false">455068991580-846i08db8ni5gleshsutfr31i05u6hkp.apps.googleusercontent.com</string>
     <string name="home_add_tx_btn">Add Transaction</string>
     <string name="home_ai_autodetect">Auto-detects income, expense &amp; loans</string>
     <string name="home_ai_placeholder">e.g. Spent 250 on groceries or lent 500 to Rahul</string>
