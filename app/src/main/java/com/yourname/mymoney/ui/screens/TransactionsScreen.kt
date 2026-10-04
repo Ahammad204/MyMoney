@@ -1,11 +1,19 @@
 package com.yourname.mymoney.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -81,7 +89,7 @@ enum class DateRangeFilter(val label: String) {
     CUSTOM("Custom Range")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun TransactionsScreen(
     transactions: List<TransactionEntity>,
@@ -257,7 +265,7 @@ fun TransactionsScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .widthIn(max = 640.dp)
                     .testTag("transactions_list_column"),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -354,7 +362,7 @@ fun TransactionsScreen(
 
             // 2. TYPE FILTER (All, Income, Expense, Recurring)
             item {
-                androidx.compose.foundation.layout.FlowRow(
+                FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -389,7 +397,7 @@ fun TransactionsScreen(
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                 color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -414,7 +422,7 @@ fun TransactionsScreen(
                             Surface(
                                 shape = RoundedCornerShape(14.dp),
                                 color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
-                                border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
+                                border = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
                                 modifier = Modifier
                                     .clickable { selectedDateRange = rangeOption }
                                     .testTag("date_filter_${rangeOption.name}")
@@ -509,7 +517,7 @@ fun TransactionsScreen(
                             Surface(
                                 shape = RoundedCornerShape(14.dp),
                                 color = if (isAll) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
-                                border = if (isAll) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null,
+                                border = if (isAll) BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null,
                                 modifier = Modifier
                                     .clickable { selectedCategory = null }
                                     .testTag("cat_filter_all")
@@ -528,7 +536,7 @@ fun TransactionsScreen(
                             Surface(
                                 shape = RoundedCornerShape(14.dp),
                                 color = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
-                                border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null,
+                                border = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null,
                                 modifier = Modifier
                                     .clickable { selectedCategory = if (isSelected) null else cat }
                                     .testTag("cat_filter_$cat")
@@ -601,13 +609,14 @@ fun TransactionsScreen(
         }
     }
 }
+}
 
-@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
-@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
-@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
-@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
-@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
-@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
 @Composable
 private fun TransactionsScreenPreview() {
     MaterialTheme {

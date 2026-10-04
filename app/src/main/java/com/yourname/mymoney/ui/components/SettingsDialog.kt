@@ -1,5 +1,14 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.window.DialogProperties
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,7 +21,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +29,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
@@ -199,7 +208,7 @@ fun SettingsDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -207,9 +216,9 @@ fun SettingsDialog(
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .androidx.compose.foundation.layout.widthIn(max = 560.dp)
+                .widthIn(max = 560.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
@@ -256,7 +265,7 @@ fun SettingsDialog(
                 Card(
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.25f)),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("google_drive_card")
@@ -358,7 +367,7 @@ fun SettingsDialog(
                                         },
                                         enabled = !isSigningIn,
                                         shape = RoundedCornerShape(8.dp),
-                                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 6.dp),
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
                                         modifier = Modifier.testTag("google_signin_button")
                                     ) {
                                         Text(
@@ -475,7 +484,7 @@ fun SettingsDialog(
                                 Surface(
                                     shape = RoundedCornerShape(8.dp),
                                     color = MaterialTheme.colorScheme.surface,
-                                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                                     modifier = Modifier
                                         .clickable { isIntervalDropdownOpen = true }
                                         .testTag("auto_backup_dropdown")
@@ -710,7 +719,7 @@ fun SettingsDialog(
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = if (isSimulatedOffline) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface,
-                            border = androidx.compose.foundation.BorderStroke(
+                            border = BorderStroke(
                                 1.dp,
                                 if (isSimulatedOffline) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                             ),
@@ -826,7 +835,7 @@ fun SettingsDialog(
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
-                            border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
+                            border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
                             modifier = Modifier
                                 .clickable { onCurrencyChange(curr) }
                                 .testTag("currency_chip_${curr.code}")
@@ -863,7 +872,7 @@ fun SettingsDialog(
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
-                            border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
+                            border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
                             modifier = Modifier
                                 .clickable {
                                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
@@ -1104,7 +1113,7 @@ fun SettingsDialog(
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = MaterialTheme.colorScheme.surface,
-                            border = androidx.compose.foundation.BorderStroke(
+                            border = BorderStroke(
                                 1.dp,
                                 MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                             ),

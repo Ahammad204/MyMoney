@@ -1,5 +1,12 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.DialogProperties
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,10 +19,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Close
@@ -123,7 +130,7 @@ fun AddLoanDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -133,7 +140,7 @@ fun AddLoanDialog(
                 .fillMaxWidth()
                 .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
@@ -186,7 +193,7 @@ fun AddLoanDialog(
                             color = if (isLent) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = if (isLent) FontWeight.Bold else FontWeight.Medium,
                             fontSize = 12.sp,
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            textAlign = TextAlign.Center
                         )
                     }
 
@@ -206,7 +213,7 @@ fun AddLoanDialog(
                             color = if (isBorrowed) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = if (isBorrowed) FontWeight.Bold else FontWeight.Medium,
                             fontSize = 12.sp,
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -372,7 +379,7 @@ fun AddLoanDialog(
                         .height(50.dp)
                         .testTag("save_loan_button"),
                     shape = RoundedCornerShape(14.dp),
-                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                    colors = ButtonDefaults.buttonColors(
                         containerColor = if (type == "LENT") IncomeGreen else MaterialTheme.colorScheme.primary
                     )
                 ) {

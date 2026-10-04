@@ -1,5 +1,8 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.defaultMinSize
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,7 +59,7 @@ fun QuickActionButton(
     Surface(
         shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
-        border = androidx.compose.foundation.BorderStroke(
+        border = BorderStroke(
             1.dp,
             MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
         ),
@@ -66,7 +69,7 @@ fun QuickActionButton(
     ) {
         Row(
             modifier = Modifier
-                .androidx.compose.foundation.layout.defaultMinSize(minHeight = 48.dp)
+                .defaultMinSize(minHeight = 48.dp)
                 .padding(vertical = 10.dp, horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -84,7 +87,7 @@ fun QuickActionButton(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

@@ -1,11 +1,16 @@
 package com.yourname.mymoney.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -117,7 +122,7 @@ fun ReportsScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                .widthIn(max = 640.dp)
                 .testTag("reports_column"),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -249,7 +254,7 @@ fun ReportsScreen(
             Card(
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                border = androidx.compose.foundation.BorderStroke(
+                border = BorderStroke(
                     1.dp,
                     MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)
                 ),
@@ -316,7 +321,7 @@ fun ReportsScreen(
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
-                            border = androidx.compose.foundation.BorderStroke(
+                            border = BorderStroke(
                                 1.dp,
                                 MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
                             ),
@@ -500,13 +505,14 @@ fun ReportsScreen(
         }
     }
 }
+}
 
-@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
-@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
-@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
-@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
-@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
-@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
 @Composable
 private fun ReportsScreenPreview() {
     MaterialTheme {
@@ -570,7 +576,7 @@ fun CategoryBudgetCard(
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = containerBg),
-        border = androidx.compose.foundation.BorderStroke(if (budget.isExceeded || budget.isWarning) 1.5.dp else 1.dp, borderColor),
+        border = BorderStroke(if (budget.isExceeded || budget.isWarning) 1.5.dp else 1.dp, borderColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -617,7 +623,7 @@ fun CategoryBudgetCard(
                 Surface(
                     shape = RoundedCornerShape(8.dp),
                     color = progressColor.copy(alpha = 0.15f),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, progressColor)
+                    border = BorderStroke(1.dp, progressColor)
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),

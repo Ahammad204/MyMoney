@@ -1,5 +1,7 @@
 package com.yourname.mymoney
 
+import androidx.compose.ui.unit.Dp
+
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -340,7 +342,7 @@ fun MyMoneyApp(
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = androidx.compose.ui.unit.Dp(8f),
+                tonalElevation = Dp(8f),
                 modifier = Modifier.testTag("bottom_nav_bar")
             ) {
                 AppTab.entries.forEach { tab ->

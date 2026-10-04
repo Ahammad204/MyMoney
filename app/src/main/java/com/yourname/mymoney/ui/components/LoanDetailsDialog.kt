@@ -1,5 +1,12 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.window.DialogProperties
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,10 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
@@ -73,7 +80,7 @@ fun LoanDetailsDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -81,9 +88,9 @@ fun LoanDetailsDialog(
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .androidx.compose.foundation.layout.widthIn(max = 520.dp)
+                .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
@@ -141,7 +148,7 @@ fun LoanDetailsDialog(
                     Surface(
                         shape = RoundedCornerShape(12.dp),
                         color = ExpenseRed.copy(alpha = 0.15f),
-                        border = androidx.compose.foundation.BorderStroke(1.5.dp, ExpenseRed),
+                        border = BorderStroke(1.5.dp, ExpenseRed),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 12.dp)

@@ -1,5 +1,10 @@
 package com.yourname.mymoney.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,7 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
+import PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -157,7 +162,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .widthIn(max = 640.dp)
                     .testTag("home_screen_column"),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 100.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
@@ -207,7 +212,7 @@ fun HomeScreen(
                                 Surface(
                                     shape = RoundedCornerShape(12.dp),
                                     color = MaterialTheme.colorScheme.tertiaryContainer,
-                                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
                                 modifier = Modifier
                                     .padding(end = 6.dp)
                                     .testTag("home_offline_badge")
@@ -307,7 +312,7 @@ fun HomeScreen(
                 Surface(
                     shape = RoundedCornerShape(16.dp),
                     color = MaterialTheme.colorScheme.surface,
-                    border = androidx.compose.foundation.BorderStroke(
+                    border = BorderStroke(
                         1.dp,
                         MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
                     ),
@@ -639,7 +644,7 @@ fun HomeScreen(
                     Card(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight()
@@ -694,7 +699,7 @@ fun HomeScreen(
                     Card(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight()
@@ -941,13 +946,14 @@ fun HomeScreen(
         }
     }
 }
+}
 
-@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
-@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
-@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
-@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
-@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
-@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
 @Composable
 private fun HomeScreenPreview() {
     MaterialTheme {

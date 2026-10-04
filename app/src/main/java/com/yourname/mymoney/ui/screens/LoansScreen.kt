@@ -1,5 +1,10 @@
 package com.yourname.mymoney.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,7 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -136,7 +141,7 @@ fun LoansScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .androidx.compose.foundation.layout.widthIn(max = 640.dp)
+                    .widthIn(max = 640.dp)
                     .testTag("loans_list_column"),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 100.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
@@ -170,7 +175,7 @@ fun LoansScreen(
                     Card(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         modifier = Modifier
                             .weight(1f)
                             .testTag("total_will_receive_card")
@@ -221,7 +226,7 @@ fun LoansScreen(
                     Card(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         modifier = Modifier
                             .weight(1f)
                             .testTag("total_must_pay_card")
@@ -335,7 +340,7 @@ fun LoansScreen(
                                     } else {
                                         if (isOverdueChip && overdueCount > 0) ExpenseRed.copy(alpha = 0.12f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
                                     },
-                                    border = if (isOverdueChip && overdueCount > 0 && !isSelected) androidx.compose.foundation.BorderStroke(1.dp, ExpenseRed) else null,
+                                    border = if (isOverdueChip && overdueCount > 0 && !isSelected) BorderStroke(1.dp, ExpenseRed) else null,
                                     modifier = Modifier
                                         .clickable { selectedStatusFilter = key }
                                         .testTag("loan_filter_$key")
@@ -461,6 +466,7 @@ fun LoansScreen(
         }
     }
 }
+}
 
 @Composable
 fun LoanCardItem(
@@ -488,11 +494,11 @@ fun LoanCardItem(
             }
         ),
         border = if (isOverdue) {
-            androidx.compose.foundation.BorderStroke(1.5.dp, ExpenseRed) // Highlight overdue border
+            BorderStroke(1.5.dp, ExpenseRed) // Highlight overdue border
         } else if (isSettled) {
-            androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
         } else {
-            androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
         },
         elevation = CardDefaults.cardElevation(defaultElevation = if (isOverdue) 3.dp else 1.dp),
         modifier = modifier
@@ -787,12 +793,12 @@ fun PersonSummaryCard(
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
-@androidx.compose.ui.tooling.preview.Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
-@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
-@androidx.compose.ui.tooling.preview.Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
-@androidx.compose.ui.tooling.preview.Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
-@androidx.compose.ui.tooling.preview.Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
+@Preview(name = "Small Phone 320dp", widthDp = 320, heightDp = 640)
+@Preview(name = "Normal Phone 360dp", widthDp = 360, heightDp = 740)
+@Preview(name = "Large Phone 411dp", widthDp = 411, heightDp = 891)
+@Preview(name = "Tablet 600dp", widthDp = 600, heightDp = 960)
+@Preview(name = "Landscape 800dp", widthDp = 800, heightDp = 400)
+@Preview(name = "Font Scale 1.5", widthDp = 360, heightDp = 740, fontScale = 1.5f)
 @Composable
 private fun LoansScreenPreview() {
     MaterialTheme {
@@ -815,7 +821,7 @@ private fun LoansScreenPreview() {
             ),
             onAddLoanClick = {},
             onLoanClick = {},
-            onAddPayment = {}
+            onAddRepaymentClick = {}
         )
     }
 }

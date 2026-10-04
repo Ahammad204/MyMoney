@@ -1,5 +1,11 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.window.DialogProperties
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,7 +57,7 @@ fun AiEntryPreviewDialog(
 ) {
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -59,14 +65,14 @@ fun AiEntryPreviewDialog(
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .androidx.compose.foundation.layout.widthIn(max = 520.dp)
+                .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
                     .padding(20.dp)
-                    .androidx.compose.foundation.verticalScroll(androidx.compose.foundation.rememberScrollState())
+                    .verticalScroll(rememberScrollState())
             ) {
                 // Header
                 Row(

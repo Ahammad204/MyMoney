@@ -1,10 +1,18 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.window.DialogProperties
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -67,7 +75,7 @@ fun EditBudgetDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -75,14 +83,14 @@ fun EditBudgetDialog(
             tonalElevation = 6.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .androidx.compose.foundation.layout.widthIn(max = 520.dp)
+                .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
                     .padding(20.dp)
-                    .androidx.compose.foundation.verticalScroll(androidx.compose.foundation.rememberScrollState())
+                    .verticalScroll(rememberScrollState())
             ) {
                 // Header
                 Row(
@@ -122,7 +130,7 @@ fun EditBudgetDialog(
                         Surface(
                             shape = RoundedCornerShape(14.dp),
                             color = if (isSelected) catColor.copy(alpha = 0.15f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.5.dp, catColor) else null,
+                            border = if (isSelected) BorderStroke(1.5.dp, catColor) else null,
                             modifier = Modifier
                                 .clickable { selectedCategory = cat }
                                 .testTag("budget_cat_chip_$cat")

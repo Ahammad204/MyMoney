@@ -1,5 +1,10 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.sizeIn
+
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -9,7 +14,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -111,8 +116,8 @@ fun ExpensePieChart(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.65f)
-                        .androidx.compose.foundation.layout.sizeIn(maxWidth = 190.dp, maxHeight = 190.dp)
-                        .androidx.compose.foundation.layout.aspectRatio(1f)
+                        .sizeIn(maxWidth = 190.dp, maxHeight = 190.dp)
+                        .aspectRatio(1f)
                         .testTag("pie_chart_canvas_box"),
                     contentAlignment = Alignment.Center
                 ) {
@@ -207,7 +212,7 @@ fun ExpensePieChart(
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = if (isSelected) catColor.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
-                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.5.dp, catColor) else null,
+                            border = if (isSelected) BorderStroke(1.5.dp, catColor) else null,
                             modifier = Modifier
                                 .clickable {
                                     selectedCategory = if (isSelected) null else item.category
@@ -428,4 +433,5 @@ fun SixMonthCashflowBarChart(
             }
         }
     }
+}
 }

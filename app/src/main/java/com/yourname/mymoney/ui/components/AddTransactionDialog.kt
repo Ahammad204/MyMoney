@@ -1,12 +1,21 @@
 package com.yourname.mymoney.ui.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.DialogProperties
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,12 +23,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
+import widthIn
+import rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDownward
@@ -163,7 +172,7 @@ fun AddTransactionDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(24.dp),
@@ -173,7 +182,7 @@ fun AddTransactionDialog(
                 .fillMaxWidth()
                 .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp, vertical = 20.dp)
-                .androidx.compose.foundation.layout.imePadding()
+                .imePadding()
         ) {
             Column(
                 modifier = Modifier
@@ -382,7 +391,7 @@ fun AddTransactionDialog(
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                 color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.padding(vertical = 7.dp),
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -475,7 +484,7 @@ fun AddTransactionDialog(
                     Surface(
                         shape = RoundedCornerShape(10.dp),
                         color = if (isToday) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                        border = if (isToday) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
+                        border = if (isToday) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
                         modifier = Modifier
                             .weight(1f)
                             .clickable { selectedTimestamp = System.currentTimeMillis() }
@@ -486,14 +495,14 @@ fun AddTransactionDialog(
                             fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
                             color = if (isToday) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(vertical = 8.dp),
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            textAlign = TextAlign.Center
                         )
                     }
 
                     Surface(
                         shape = RoundedCornerShape(10.dp),
                         color = if (isYesterday) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                        border = if (isYesterday) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
+                        border = if (isYesterday) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
                         modifier = Modifier
                             .weight(1f)
                             .clickable { selectedTimestamp = System.currentTimeMillis() - (24 * 60 * 60 * 1000L) }
@@ -504,14 +513,14 @@ fun AddTransactionDialog(
                             fontWeight = if (isYesterday) FontWeight.Bold else FontWeight.Normal,
                             color = if (isYesterday) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(vertical = 8.dp),
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            textAlign = TextAlign.Center
                         )
                     }
 
                     Surface(
                         shape = RoundedCornerShape(10.dp),
                         color = if (!isToday && !isYesterday) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                        border = if (!isToday && !isYesterday) androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
+                        border = if (!isToday && !isYesterday) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null,
                         modifier = Modifier
                             .weight(1.3f)
                             .clickable { showDatePickerDialog = true }
@@ -608,7 +617,7 @@ fun AddTransactionDialog(
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = if (isSelected) catColor.copy(alpha = 0.15f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
-                            border = if (isSelected) androidx.compose.foundation.BorderStroke(1.5.dp, catColor) else null,
+                            border = if (isSelected) BorderStroke(1.5.dp, catColor) else null,
                             modifier = Modifier
                                 .clickable { category = catName }
                                 .testTag("category_chip_$catName")
