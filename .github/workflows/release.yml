@@ -100,6 +100,7 @@ jobs:
         with:
           files: ${{ steps.prepare_artifact.outputs.apk_path }}
           tag_name: ${{ steps.prepare_artifact.outputs.tag_name }}
+          target_commitish: ${{ github.sha }}
           name: ${{ steps.prepare_artifact.outputs.release_title }}
           generate_release_notes: true
           draft: false
